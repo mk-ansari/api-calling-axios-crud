@@ -1,20 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Stack, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-const AddUser = ({
+const UserOperations = ({
   isEdit,
   operation,
   inputs,
   loading,
 }) => {
-
-  // useEffect(() => {
-  //   formik.setFieldValue("name", inputs.name)
-  //   formik.setFieldValue("username", inputs.username)
-  //   formik.setFieldValue("email", inputs.email)
-  // }, [inputs])
 
   let initialValues = isEdit ? inputs : {
     name: "",
@@ -43,10 +37,8 @@ const AddUser = ({
     },
   });
   
-
   // console.log(formik.values);
 
-  
   return (
     <Stack
       direction="row"
@@ -107,4 +99,4 @@ const AddUser = ({
   );
 };
 
-export default AddUser;
+export default UserOperations;

@@ -7,8 +7,7 @@ import SnackBars from "../../components/SnackBars/SnackBars";
 import UsersTabel from "./UsersTabel";
 import axios from "axios";
 
-const AddUser = lazy(() => import("./AddUser"));
-const EditUser = lazy(() => import("./EditUser"));
+const UserOperations = lazy(() => import("./UserOperations"));
 
 // initalvalues of useState.
 const initialValues = {
@@ -47,7 +46,7 @@ const Users = () => {
     fetchData();
   }, []);
 
-  //Dialog
+  //DialogUserOperations
   const handleDialogOpen = (id) => {
     setOpenDialog({ open: true, id });
   };
@@ -90,7 +89,7 @@ const Users = () => {
 
   // Add User.
   const addUser = async (inputs) => {
-    console.log("From Add",  inputs);
+    console.log("From Add", inputs);
     try {
       setLoading({ status: true, isLoading: "ADD" });
       const res = await axios.post(
@@ -136,12 +135,15 @@ const Users = () => {
 
   // Edit User
   const editUser = async (inputs) => {
-    console.log("From Edit",  inputs);
+    console.log("From Edit", inputs);
     try {
       setLoading({ status: true, isLoading: "EDIT" });
 
-      const res = await axios.put(`https://jsonplaceholder.typicode.com/users/${inputs.id}`,inputs)
-    
+      const res = await axios.put(
+        `https://jsonplaceholder.typicode.com/users/${inputs.id}`,
+        inputs
+      );
+
       const editedUser = res.data;
 
       setUsers(
@@ -163,34 +165,14 @@ const Users = () => {
     <Fragment>
       <Suspense>
         <Container sx={{ mt: 4 }}>
-    
-            <AddUser
-              isEdit={isEdit.status}
-              operation={ isEdit.status ? editUser :addUser}
-              handleSubmit={handleSubmit}
-              inputs={inputs}
-              handleInput={handleInput}
-              loading={loading}
-            />
-
-          {/* {isEdit.status ? (
-            <EditUser
-              editUser={editUser}
-              handleSubmit={handleSubmit}
-              inputs={inputs}
-              handleInput={handleInput}
-              loading={loading}
-            />
-          ) : (
-            <AddUser
-              addUser={addUser}
-
-              handleSubmit={handleSubmit}
-              inputs={inputs}
-              handleInput={handleInput}
-              loading={loading}
-            />
-          )} */}
+          <UserOperations
+            isEdit={isEdit.status}
+            operation={isEdit.status ? editUser : addUser}
+            handleSubmit={handleSubmit}
+            inputs={inputs}
+            handleInput={handleInput}
+            loading={loading}
+          />
           <UsersTabel
             users={users}
             isEdit={isEdit}
@@ -207,11 +189,6 @@ const Users = () => {
           loading={loading}
           deleteUser={deleteUser}
         />
-        {/* <SnackBars
-          openSnackbar={openSnackbar}
-          handleSnackbarClose={handleSnackbarClose}
-          status={status}
-        /> */}
       </Suspense>
     </Fragment>
   );
